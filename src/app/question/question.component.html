@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="card mt-3">
+    <div class="card mt-1">
         <div class="d-flex justify-content-between p-3">
             <div class="image">
                 <img src="https://img.icons8.com/color/96/000000/angularjs.png" width="90" alt="logo">
@@ -14,13 +14,13 @@
 
         <div class="d-flex justify-content-around py-3">
             <div class="score">
-                20 points
+                {{points}} points
             </div>
             <div class="question-remaining">
-                <span style="font-style: italic;">Question 1 of 9</span>
+                <span style="font-style: italic;">Question {{currentQuestion + 1}} of 9</span>
             </div>
             <div class="timer">
-                <h5>60 sec</h5>
+                <h5>{{counter}} Sec 1:03:54</h5>
             </div>
         </div>
 
@@ -30,36 +30,29 @@
 
         <div class="questions">
             <div class="card">
-                <h3>What is your name ?</h3>
+                <h5>{{questionList[currentQuestion]?.questionText}}</h5>
             </div>
         </div>
 
         <div class="options mt-1">
-            <ol class="card">
+            <ol *ngFor= "let option of questionList[currentQuestion]?.options">
                 <li>
-                    <div class="card">Kevin</div>
-                </li>
-                <li>
-                    <div class="card">Erick</div>
-                </li>
-                <li>
-                    <div class="card">Owuor</div>
-                </li>
-                <li>
-                    <div class="card">Majengo</div>
+                    <div class="card">
+                        {{option.text}}
+                    </div>
                 </li>
             </ol>
         </div>
 
         <div class="d-flex justify-content-between">
             <button class="btn">
-                <i class="fa text-primary fa-3x fa-chevron-left" aria-hidden="true"></i>
+                <i (click)="previousQuestion()" class="fa text-primary fa-3x fa-chevron-left" aria-hidden="true"></i>
             </button>
             <button class="btn">
                 <i class="fa text-primary fa-3x fa-refresh" aria-hidden="true"></i>
             </button>
             <button class="btn">
-                <i class="fa text-primary fa-3x fa-chevron-right" aria-hidden="true"></i>
+                <i (click)="nextQuestion()" class="fa text-primary fa-3x fa-chevron-right" aria-hidden="true"></i>
             </button>
         </div>
     </div>
