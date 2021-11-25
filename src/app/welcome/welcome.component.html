@@ -19,9 +19,9 @@
 
     <div class="col-md-4 mt-3 mb-3">
         <label for="exampleFormControlInput1" class="form-label">Enter your name:</label>
-        <input type="text" class="form-control">
+        <input #name type="text" class="form-control">
     </div>
 
-    <button class="btn btn-primary btn-lg" routerLink="/question">Start Quiz ?</button>
+    <button (click)="startQuiz()" class="btn btn-primary btn-lg" routerLink="/question">Start Quiz ?</button>
 
 </div>
