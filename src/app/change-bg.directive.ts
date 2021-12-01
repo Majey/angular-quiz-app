@@ -10,7 +10,7 @@ export class ChangeBgDirective {
   constructor(private el: ElementRef, private render: Renderer2 ) { }
 
   @HostListener("click") answer(){
-    if(this.isCorrect){
+    if(this.isCorrect) {
       this.render.setStyle(this.el.nativeElement, "background", "green");
       this.render.setStyle(this.el.nativeElement, "color", "white");
       this.render.setStyle(this.el.nativeElement, "border", "2px solid grey");
@@ -20,5 +20,4 @@ export class ChangeBgDirective {
       this.render.setStyle(this.el.nativeElement, "border", "2px solid grey");
     }
   }
-
 }

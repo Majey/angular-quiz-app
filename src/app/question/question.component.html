@@ -3,30 +3,34 @@
         <div class="d-flex justify-content-between p-3">
             <div class="image">
                 <img src="https://img.icons8.com/color/96/000000/angularjs.png" width="90" alt="logo">
-
             </div>
 
             <div class="quiz-header">
                 <h4 style="font-family: cursive;">Angular & TypeScript Quiz</h4>
-                <span style="font-style: italic;">Welcome {{name}}</span>
+                <span style="font-style: italic;">Welcome <span class="fw-bold text-danger">{{name | uppercase}}</span></span>
             </div>
         </div>
 
         <ng-container *ngIf = "!isQuizCompleted">
             <div class="d-flex justify-content-around py-3">
                 <div class="score">
-                    {{points}} points
+                    <h5 *ngIf = "isEqualGreaterThanZero" class="text-success">{{points}} points</h5>
+                    <h5 *ngIf = "!isEqualGreaterThanZero" class="text-danger">{{points}} points</h5>
                 </div>
+
                 <div class="question-remaining">
-                    <span style="font-style: italic;">Question {{currentQuestion + 1}} of {{questionList.length}}</span>
+                    <span style="font-style: italic;">Question <strong>{{currentQuestion + 1}}</strong> of <strong>{{questionList.length}}</strong></span>
                 </div>
+
                 <div class="timer">
-                    <h5>{{counter}} Sec</h5>
+                    <h5 *ngIf = "isCounterGreaterThan30secs"><span class="text-success">{{counter}} Sec </span><i class="fa fa-hourglass-start text-success"></i></h5>
+                    <h5 *ngIf = "!isCounterGreaterThan30secs"><span class="text-danger">{{counter}} Sec </span><i class="fa fa-hourglass-half text-danger"></i></h5>
                 </div>
             </div>
     
             <div class="progress m-1">
-                <div class="progress-bar progress-bar-striped" role="progressbar" [ngStyle]="{'width':progress + '%'}" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                <div *ngIf = "isEqualGreaterThanZero" class="progress-bar progress-bar-striped bg-success" role="progressbar" [ngStyle]="{'width':progress + '%'}" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                <div *ngIf = "!isEqualGreaterThanZero" class="progress-bar progress-bar-striped bg-danger" role="progressbar" [ngStyle]="{'width':progress + '%'}" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
     
             <div class="questions">
@@ -64,12 +68,18 @@
             <div class="card">
                 <div class="row d-flex justify-content-between">
                     <img style="width:50%" class="img-fluid col-sm-12 mx-auto" src="https://icon-library.com/images/celebration-icon-png/celebration-icon-png-7.jpg" alt="">
-                    <div class="results text-center col-sm-12 col-md-6">
-                        <h4>Congratulations!!! <br>You have completed the quiz. <br>Below is your result:</h4>
+                    <div class="results col-sm-12 col-md-6">
+                        <br>
+                        <div class="text-center">
+                            <h4>Congratulations!!! <br>You have completed the quiz. <br>Below is your result:</h4>
+                        </div>
+                        <br>
+                        <hr>
+                        <br>
                         <p><strong>Questions Attempted: </strong>{{questionList.length}}</p>
                         <p><strong>Total Correct Answered: </strong>{{correctAnswer}}</p>
                         <p><strong>Total Wrong Answered: </strong>{{incorrectAnswer}}</p>
-                        <p><strong>Final Score: </strong>{{points}} Points</p>
+                        <p><strong>Final Score: </strong><span class="fw-bold text-success display-6">{{points}} Points</span></p>
                     </div>
                 </div>
             </div>

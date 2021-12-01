@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { interval } from 'rxjs';
 import { QuestionsService } from '../service/questions.service';
@@ -13,6 +14,8 @@ export class QuestionComponent implements OnInit {
   public questionList: any = [];
   public currentQuestion: number = 0;
   public points: number = 0;
+  isEqualGreaterThanZero:boolean = true;
+  isCounterGreaterThan30secs: boolean = true;
   counter: number = 60;
   correctAnswer: number = 0;
   incorrectAnswer: number = 0;
@@ -50,8 +53,9 @@ export class QuestionComponent implements OnInit {
       setTimeout(() => {
         this.currentQuestion ++;
         this.getProgressPercentage();
-        this.resetCounter();        
-      }, 1000);
+        this.resetCounter();   
+        this.isLessThanZiro();     
+      }, 500);
 
     } else {
       setTimeout(() => {
@@ -59,21 +63,38 @@ export class QuestionComponent implements OnInit {
         this.currentQuestion ++; 
         this.getProgressPercentage();
         this.resetCounter();        
-      }, 1000);
+      }, 500);
 
-      this.points -= 10;      
+      this.points -= 10;
+      this.isLessThanZiro();        
     }
   }
 
   startCounter(){
+    this.isLessThanZiro();
+
     this.interval$ = interval(1000)
     .subscribe(val => {
-      this.counter --;
+      this.counter --;    
       if(this.counter===0){
         this.currentQuestion++;
+        this.incorrectAnswer ++;
         this.points-=10;
         this.counter = 60;
+        this.getProgressPercentage();
+        this.isCounterGreaterThan30secs = true;
+      } 
+      if(this.points < 0){
+        this.isEqualGreaterThanZero = false;
       }
+      if(this.counter < 30){
+        this.isCounterGreaterThan30secs = false
+      }
+      if(this.currentQuestion === this.questionList.length){
+        this.isQuizCompleted = true;
+        this.stopCounter();
+      }    
+
     });
     setTimeout(()=>{
       this.interval$.unsubscribe()
@@ -88,13 +109,17 @@ export class QuestionComponent implements OnInit {
   resetCounter(){
     this.stopCounter();
     this.counter = 60;
-    this.startCounter();    
+    this.startCounter(); 
+    if(this.counter < 30){
+      this.isCounterGreaterThan30secs = false
+    }
   }
 
   resetQuiz(){
     this.resetCounter();
     this.getAllQuestions();
     this.points = 0;
+    this.isLessThanZiro();
     this.counter = 60;
     this.progress = "0";    
     this.currentQuestion = 0;
@@ -105,4 +130,11 @@ export class QuestionComponent implements OnInit {
     return this.progress
   }
 
+  isLessThanZiro(){
+    if(this.points < 0){
+      this.isEqualGreaterThanZero = false;
+    }else{
+      this.isEqualGreaterThanZero =true;
+    }
+  }
 }
